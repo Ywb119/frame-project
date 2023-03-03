@@ -25,7 +25,6 @@ public class ClientInboundHandler1 extends ChannelInboundHandlerAdapter {
         log.info("ClientInboundHandler1 channelRead");
         ByteBuf buf = (ByteBuf) msg;
         log.info("ClientInboundHandler1: received server data ={}",buf.toString(StandardCharsets.UTF_8));
-        ctx.writeAndFlush(buf);
     }
 
     @Override

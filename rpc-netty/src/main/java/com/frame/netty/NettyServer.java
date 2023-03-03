@@ -39,9 +39,9 @@ public class NettyServer {
                                     //获取与该channel绑定的pipeline
                                     ChannelPipeline pipeline = socketChannel.pipeline();
                                     //像pipeline中添加handler
-//                                    pipeline.addLast(new ServerOutboundHandler1());
+                                    pipeline.addLast(new ServerOutboundHandler1());
                                     pipeline.addLast(new ServerInboundHandler1());
-//                                    pipeline.addLast(new ServerInboundHandler2());
+                                    pipeline.addLast(new ServerInboundHandler2());
                                 }
                             }
                     );

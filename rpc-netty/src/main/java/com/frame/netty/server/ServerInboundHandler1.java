@@ -11,18 +11,18 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class ServerInboundHandler1 extends ChannelInboundHandlerAdapter {
 
+    /**
+     * 通道准备就绪
+     */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("ServerInboundHandler1 channelActive --");
-        super.channelActive(ctx);
+        //事件向下传递
+        ctx.fireChannelActive();
     }
 
     /**
      * 通道有数据可读时
-     *
-     * @param ctx
-     * @param msg
-     * @throws Exception
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -36,9 +36,6 @@ public class ServerInboundHandler1 extends ChannelInboundHandlerAdapter {
 
     /**
      * 数据读取完毕时
-     *
-     * @param ctx
-     * @throws Exception
      */
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
@@ -48,14 +45,11 @@ public class ServerInboundHandler1 extends ChannelInboundHandlerAdapter {
         ctx.writeAndFlush(buf);
         //通过Channel写,事件会从通道尾部向头部移动
 //        ctx.channel().writeAndFlush(buf);
+        ctx.fireChannelReadComplete();
     }
 
     /**
      * 发生异常时
-     *
-     * @param ctx
-     * @param cause
-     * @throws Exception
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
