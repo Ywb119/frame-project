@@ -3,7 +3,10 @@ package com.frame.netty;
 import com.frame.netty.server.ServerInboundHandler1;
 import com.frame.netty.server.ServerInboundHandler2;
 import com.frame.netty.server.ServerOutboundHandler1;
+import com.frame.netty.server.TcpStickHalfHandler1;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -11,9 +14,12 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
+
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class NettyServer {
@@ -39,9 +45,14 @@ public class NettyServer {
                                     //获取与该channel绑定的pipeline
                                     ChannelPipeline pipeline = socketChannel.pipeline();
                                     //像pipeline中添加handler
-                                    pipeline.addLast(new ServerOutboundHandler1());
-                                    pipeline.addLast(new ServerInboundHandler1());
-                                    pipeline.addLast(new ServerInboundHandler2());
+                                    /*
+                                        pipeline.addLast(new ServerOutboundHandler1());
+                                        pipeline.addLast(new ServerInboundHandler1());
+                                        pipeline.addLast(new ServerInboundHandler2());
+                                    */
+                                    ByteBuf buf = Unpooled.wrappedBuffer("$".getBytes(StandardCharsets.UTF_8));
+                                    pipeline.addLast(new DelimiterBasedFrameDecoder(65536, buf));
+                                    pipeline.addLast(new TcpStickHalfHandler1());
                                 }
                             }
                     );

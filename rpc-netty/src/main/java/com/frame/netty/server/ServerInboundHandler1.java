@@ -2,6 +2,8 @@ package com.frame.netty.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +44,13 @@ public class ServerInboundHandler1 extends ChannelInboundHandlerAdapter {
         log.info("ServerInboundHandler1 channelReadComplete----");
         ByteBuf buf = Unpooled.copiedBuffer("hello client, i am server", StandardCharsets.UTF_8);
         //通过ctx写，事件会从当前handler向pipeline头部移动
-        ctx.writeAndFlush(buf);
+        ChannelFuture channelFuture = ctx.writeAndFlush(buf);
+        channelFuture.addListener(new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                log.info("数据处理完成 {}", channelFuture.get());
+            }
+        });
         //通过Channel写,事件会从通道尾部向头部移动
 //        ctx.channel().writeAndFlush(buf);
         ctx.fireChannelReadComplete();
