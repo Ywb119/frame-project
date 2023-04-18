@@ -15,7 +15,7 @@ public class ClientInboundHandler1 extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("ClientInboundHandler1 channelActive begin send data");
+//        log.info("ClientInboundHandler1 channelActive begin send data");
         //批量发送数据
         UserInfo userInfo;
         for (int i = 0; i < 100; i++) {

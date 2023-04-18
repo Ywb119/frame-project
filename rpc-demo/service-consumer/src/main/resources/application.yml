@@ -1,0 +1,19 @@
+server:
+  port: 8089
+logging:
+  config: classpath:logback-spring.xml
+spring:
+  application:
+    name: rpc-client
+
+rpc:
+  client:
+      zk:
+        root: /rpc
+        addr: 127.0.0.1:2181
+        switch: true
+        timeout: 10000
+      api:
+        package: com.frame.rpc.api
+  cluster:
+        strategy: random

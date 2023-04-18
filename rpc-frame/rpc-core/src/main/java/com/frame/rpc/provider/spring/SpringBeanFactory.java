@@ -27,16 +27,18 @@ public class SpringBeanFactory implements ApplicationContextAware {
 
     /**
      * 根据Class获取bean
+     *
      * @param cls
      * @param <T>
      * @return
      */
-    public static   <T> T getBean(Class<T> cls) {
+    public static <T> T getBean(Class<T> cls) {
         return context.getBean(cls);
     }
 
     /**
      * 根据beanName获取bean
+     *
      * @param beanName
      * @return
      */
@@ -50,18 +52,19 @@ public class SpringBeanFactory implements ApplicationContextAware {
      * @return
      */
     public static Map<String, Object> getBeanListByAnnotationClass(Class<? extends Annotation> annotationClass) {
-         return context.getBeansWithAnnotation(annotationClass);
+        return context.getBeansWithAnnotation(annotationClass);
     }
 
     /**
      * 向容器注册单例bean
+     *
      * @param bean
      */
     public static void registerSingleton(Object bean) {
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) context.getAutowireCapableBeanFactory();
         // 让bean完成Spring初始化过程中所有增强器检验，只是不重新创建bean
-        beanFactory.applyBeanPostProcessorsAfterInitialization(bean,bean.getClass().getName());
+        beanFactory.applyBeanPostProcessorsAfterInitialization(bean, bean.getClass().getName());
         //将bean以单例的形式入驻到容器中，此时通过bean.getClass().getName()或bean.getClass()都可以拿到放入Spring容器的Bean
-        beanFactory.registerSingleton(bean.getClass().getName(),bean);
+        beanFactory.registerSingleton(bean.getClass().getName(), bean);
     }
 }

@@ -12,8 +12,6 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public class UserInfo implements Serializable {
 	
@@ -22,4 +20,14 @@ public class UserInfo implements Serializable {
 	private Integer age;
 	private String gender;
 	private String address;
+
+	public UserInfo(Integer id, String name, Integer age, String gender, String address) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.address = address;
+	}
+
+	
 }
